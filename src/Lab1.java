@@ -1,3 +1,10 @@
+
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.FileReader;
+import java.io.FileWriter;
+import javax.swing.JOptionPane;
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -16,6 +23,20 @@ public class Lab1 extends javax.swing.JFrame {
     public Lab1() {
         initComponents();
     }
+    
+    private char encrypt(char ch, int key) {
+        if (Character.isLetter(ch)) {
+            ch = (char) ('A' + (Character.toUpperCase(ch) - 'A' + key) % 26);
+        }
+        return ch;
+    }
+    
+    private char decrypt(char ch, int key) {
+        if (Character.isLetter(ch)) {
+            ch = (char) ('A' + (Character.toUpperCase(ch) - 'A' - key) % 26);
+        }
+        return ch;
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -26,21 +47,192 @@ public class Lab1 extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        txtPlainText = new javax.swing.JTextField();
+        jLabel3 = new javax.swing.JLabel();
+        txtKey = new javax.swing.JTextField();
+        jLabel4 = new javax.swing.JLabel();
+        txtCipherText = new javax.swing.JTextField();
+        btnEncrypt = new javax.swing.JButton();
+        btnDecrypt = new javax.swing.JButton();
+        btnSave = new javax.swing.JButton();
+        btnLoad = new javax.swing.JButton();
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+
+        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel1.setText("Ceasar Cipher Encrypt & Decrypt Program");
+
+        jLabel2.setText("Plain Text");
+
+        jLabel3.setText("Key");
+
+        jLabel4.setText("Cipher Text");
+
+        btnEncrypt.setText("Encrypt");
+        btnEncrypt.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEncryptActionPerformed(evt);
+            }
+        });
+
+        btnDecrypt.setText("Decrypt");
+        btnDecrypt.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDecryptActionPerformed(evt);
+            }
+        });
+
+        btnSave.setText("Save");
+        btnSave.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSaveActionPerformed(evt);
+            }
+        });
+
+        btnLoad.setText("Load");
+        btnLoad.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnLoadActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel2)
+                            .addComponent(jLabel3))
+                        .addGap(24, 24, 24)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(txtKey)
+                            .addComponent(txtPlainText)))
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel4)
+                            .addComponent(btnEncrypt))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(btnDecrypt)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(btnSave)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(btnLoad))
+                            .addComponent(txtCipherText))
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel2)
+                    .addComponent(txtPlainText, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel3)
+                    .addComponent(txtKey, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel4)
+                    .addComponent(txtCipherText, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnEncrypt)
+                    .addComponent(btnDecrypt)
+                    .addComponent(btnSave)
+                    .addComponent(btnLoad))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnEncryptActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEncryptActionPerformed
+        String plainText = txtPlainText.getText();
+        
+        int key = Integer.parseInt(txtKey.getText());
+        if (key < 0) {
+            key = 26 - (-key % 26);
+        }
+        
+        String result = "";
+        for (int i = 0; i < plainText.length(); i++) {
+            char ch = encrypt(plainText.charAt(i), key);
+            result += ch;
+        }
+        
+        txtCipherText.setText(result);
+    }//GEN-LAST:event_btnEncryptActionPerformed
+
+    private void btnDecryptActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDecryptActionPerformed
+        String cipherText = txtCipherText.getText();
+        
+        int key = Integer.parseInt(txtKey.getText());
+        if (key < 0) {
+            key = 26 - (-key % 26);
+        }
+        
+        String result = "";
+        for (int i = 0; i < cipherText.length(); i++) {
+            char ch = decrypt(cipherText.charAt(i), key);
+            result += ch;
+        }
+        
+        txtPlainText.setText(result);
+    }//GEN-LAST:event_btnDecryptActionPerformed
+
+    private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
+        try {
+            BufferedWriter bw = null;
+            
+            String path = "D:\\lab1.txt";
+            
+            String data = txtCipherText.getText();
+            
+            bw = new BufferedWriter(new FileWriter(path));
+            bw.write(data);
+            bw.close();
+            JOptionPane.showMessageDialog(null, "Saved file successfully!");
+        } catch (Exception ex) {
+            
+        }
+    }//GEN-LAST:event_btnSaveActionPerformed
+
+    private void btnLoadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoadActionPerformed
+        try {
+            BufferedReader br = null;
+            
+            String path = "D:\\lab1.txt";
+            
+            br = new BufferedReader(new FileReader(path));
+            
+            StringBuffer sb = new StringBuffer();
+            
+            JOptionPane.showMessageDialog(null, "Loaded file successfully!");
+            
+            char[] ca = new char[5];
+            while (br.ready()) {
+                int len = br.read(ca);
+                sb.append(ca, 0, len);
+            }
+            
+            txtCipherText.setText(sb.toString());
+        } catch (Exception ex) {
+            
+        }
+    }//GEN-LAST:event_btnLoadActionPerformed
 
     /**
      * @param args the command line arguments
@@ -78,5 +270,16 @@ public class Lab1 extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnDecrypt;
+    private javax.swing.JButton btnEncrypt;
+    private javax.swing.JButton btnLoad;
+    private javax.swing.JButton btnSave;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JTextField txtCipherText;
+    private javax.swing.JTextField txtKey;
+    private javax.swing.JTextField txtPlainText;
     // End of variables declaration//GEN-END:variables
 }
